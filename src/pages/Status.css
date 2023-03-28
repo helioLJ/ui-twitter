@@ -47,3 +47,23 @@
   border: 0;
   transition: filter 200ms;
 }
+
+.answer-tweet-form button[type=submit]:hover {
+  filter: brightness(0.9);
+}
+
+.answer-tweet-form button[type=submit] svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: none;
+}
+
+@media (max-width: 780px) {
+  .answer-tweet-form button[type=submit] svg {
+    display: block;
+  }
+
+  .answer-tweet-form button[type=submit] span {
+    display: none;
+  }
+}

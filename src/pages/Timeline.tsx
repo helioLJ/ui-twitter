@@ -1,4 +1,5 @@
-import { FormEvent } from "react";
+import { PaperPlaneRight } from "phosphor-react";
+import { FormEvent, useState, KeyboardEvent } from "react";
 
 import { Header } from "../components/Header";
 import { Separator } from "../components/Separator";
@@ -6,17 +7,21 @@ import { Tweet } from "../components/Tweet";
 
 import './Timeline.css'
 
-const tweets = [
-  'Meu tweet 1',
-  'Meu tweet 2',
-  'Meu tweet 3',
-]
-
 export function Timeline() {
-  function createNewTweet(event: FormEvent<HTMLFormElement>) {
+  const [newTweet, setNewTweet] = useState("")
+  const [tweets, setTweets] = useState<string[]>([])
+
+  function createNewTweet(event: FormEvent) {
     event.preventDefault()
-    console.log('teste');
-    
+    setTweets([newTweet, ...tweets])
+    setNewTweet("")
+  }
+
+  function handleHotKeySubmit(event: KeyboardEvent) {
+    if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+      setTweets([newTweet, ...tweets])
+      setNewTweet("")
+    }
   }
 
   return (
@@ -26,10 +31,19 @@ export function Timeline() {
       <form onSubmit={createNewTweet} className="new-tweet-form">
         <label htmlFor="tweet">
           <img src="https://github.com/helioLJ.png" alt="Hélio Lúcio" />
-          <textarea id="tweet" placeholder="What's happening?"></textarea>
+          <textarea
+            id="tweet"
+            placeholder="What's happening?"
+            value={newTweet}
+            onKeyDown={handleHotKeySubmit}
+            onChange={event => setNewTweet(event.target.value)}
+          />
         </label>
 
-        <button type="submit">Tweet</button>
+        <button type="submit">
+          <PaperPlaneRight />
+          <span>Tweet</span>
+        </button>
       </form>
 
       <Separator />
